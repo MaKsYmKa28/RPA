@@ -121,3 +121,135 @@ Count := MyCTUD.CV;
 IF MyCTUD.Q THEN
     // Provést potřebnou akci při dosažení limitu
 END_IF
+###############################################
+Podmínky
+###############################################
+
+---------------------------------------------------
+== 1. IF ... THEN ... ELSEIF ... ELSE ... END_IF ==
+---------------------------------------------------
+
+Popis:
+  Podmínková struktura, která umožňuje vykonat různé bloky kódu na základě splnění dané podmínky.
+  Nejprve se vyhodnotí výraz za klíčovým slovem IF. Pokud je podmínka TRUE, vykoná se daný blok.
+  Volitelně lze přidat bloky ELSIF pro další podmínky a nakonec ELSE, pokud žádná z podmínek není splněna.
+
+Syntaxe:
+  IF podmínka THEN
+      // Kód, který se vykoná, pokud je podmínka TRUE
+  ELSIF jiná_podmínka THEN
+      // Kód, který se vykoná, pokud první podmínka není splněna, ale tato ano
+  ELSE
+      // Kód, který se vykoná, pokud žádná z podmínek není TRUE
+  END_IF;
+
+Příklad:
+  IF teplota > 100 THEN
+      alarm := TRUE;        // Aktivace alarmu při teplotě nad 100 stupňů
+  ELSIF teplota > 80 THEN
+      ventilator := TRUE;   // Zapnutí ventilátoru při teplotě nad 80 stupňů
+  ELSE
+      alarm := FALSE;
+      ventilator := FALSE;
+  END_IF;
+
+---------------------------------------------------
+== 2. CASE ... OF ... ELSE ... END_CASE ==
+---------------------------------------------------
+
+Popis:
+  Struktura CASE slouží k výběru jedné z více větví na základě hodnoty výrazu.
+  Je obdobou konstrukce "switch" v jiných programovacích jazycích.
+
+Syntaxe:
+  CASE výraz OF
+      hodnota1:
+          // Kód pro případ, kdy výraz se rovná hodnota1
+      hodnota2:
+          // Kód pro případ, kdy výraz se rovná hodnota2
+      ELSE
+          // Kód, pokud žádná z hodnot nesedí
+  END_CASE;
+
+Příklad:
+  CASE stavMotoru OF
+      0:
+          text := 'Motor je vypnutý';
+      1:
+          text := 'Motor běží';
+      2:
+          text := 'Motor v chybovém stavu';
+      ELSE
+          text := 'Neznámý stav';
+  END_CASE;
+
+---------------------------------------------------
+== 3. WHILE ... DO ... END_WHILE ==
+---------------------------------------------------
+
+Popis:
+  Cyklická struktura, která vykonává blok kódu, dokud je splněna zadaná podmínka.
+  Podmínka se vyhodnocuje před každou iterací cyklu.
+
+Syntaxe:
+  WHILE podmínka DO
+      // Kód, který se opakuje
+  END_WHILE;
+
+Příklad:
+  i := 0;
+  WHILE i < 10 DO
+      soucet := soucet + i;
+      i := i + 1;
+  END_WHILE;
+
+---------------------------------------------------
+== 4. REPEAT ... UNTIL ... END_REPEAT ==
+---------------------------------------------------
+
+Popis:
+  Cyklická struktura podobná WHILE, avšak podmínka se kontroluje až po vykonání bloku kódu.
+  Díky tomu se kód vykoná alespoň jednou před tím, než se podmínka ověří.
+
+Syntaxe:
+  REPEAT
+      // Kód, který se vykoná minimálně jednou
+  UNTIL podmínka
+  END_REPEAT;
+
+Příklad:
+  i := 0;
+  REPEAT
+      soucet := soucet + i;
+      i := i + 1;
+  UNTIL i >= 10
+  END_REPEAT;
+
+---------------------------------------------------
+== 5. FOR ... TO ... DO ... END_FOR ==
+---------------------------------------------------
+
+Popis:
+  Řídicí struktura pro opakování bloku kódu pevně stanovený počet krát.
+  Proměnná cyklu se automaticky inkrementuje při každé iteraci.
+
+Syntaxe:
+  FOR i := počáteční_hodnota TO koncová_hodnota DO
+      // Kód, který se vykoná pro každou hodnotu i
+  END_FOR;
+
+Příklad:
+  FOR i := 1 TO 10 DO
+      soucet := soucet + i;
+  END_FOR;
+
+---------------------------------------------------
+Shrnutí:
+  V PLC programování ve Structured Textu se nejčastěji využívají následující struktury:
+  - IF ... THEN ... ELSEIF ... ELSE ... END_IF pro podmíněné větvení.
+  - CASE ... OF ... ELSE ... END_CASE pro volbu větve na základě hodnoty výrazu.
+  - WHILE ... DO ... END_WHILE pro cykly s kontrolou podmínky před vstupem.
+  - REPEAT ... UNTIL ... END_REPEAT pro cykly, které se vykonají alespoň jednou.
+  - FOR ... TO ... DO ... END_FOR pro pevně daný počet iterací.
+
+###############################################
