@@ -1,24 +1,128 @@
-Čítače
-Dopředný čítač (CTU)
-Čítač nahoru (CTU - Count Up Counter) je typ čítače v programovatelných logických automatech (PLC), který se používá k inkrementaci hodnoty při každém aktivaci vstupního signálu. Tento čítač zvyšuje svoji aktuální hodnotu (CV - Current Value) o jeden při každém pozitivním okraji signálu na vstupu CU (Count Up).
+###############################################
+# PLC_Counters_ST.txt
+# Ukázka programování čítačů v PLC ve strukturovaném textu
+###############################################
 
-(* Deklarace proměnných *)
+---------------------------------------------------
+== 1. CTU – Čítač nahoru ==
+
+Popis:
+- Inkrementuje aktuální hodnotu (CV) při náběžné hraně vstupu CU.
+- Vstupy:
+    - CU: Signál, který při náběžné hraně zvýší čítač o 1.
+    - R : Reset, který nastaví čítač na 0.
+- Parametry:
+    - PV: Přednastavená hodnota, při dosažení které se nastaví indikátor Q na TRUE.
+- Výstupy:
+    - CV: Aktuální hodnota čítače.
+    - Q : Indikátor, zda byl dosažen nebo překročen přednastavený limit (PV).
+
+Příklad kódu:
+
+PROGRAM PLC_Program
 VAR
-    CTU_Example : CTU; (* Čítač nahoru *)
-    Increment : BOOL; (* Vstupní signál pro inkrementaci *)
-    Reset : BOOL;     (* Vstupní signál pro resetování čítače *)
-    Count_Up_Value : INT := 10; (* Přednastavená hodnota pro čítač nahoru *)
-    Up_Count : INT;   (* Aktuální hodnota čítače nahoru *)
+    Trigger : BOOL;    // Signál pro inkrementaci
+    Reset   : BOOL;    // Signál pro reset
+    Count   : INT;     // Proměnná pro uchování aktuální hodnoty
+    MyCTU   : CTU;     // Instance funkčního bloku CTU
 END_VAR
 
-(* Čítač nahoru (CTU) - Inkrementace *)
-CTU_Example(CU := Increment, R := Reset, PV := Count_Up_Value);
+// Volání funkčního bloku CTU
+MyCTU(
+    CU := Trigger,    // Vstup pro inkrementaci
+    R  := Reset,      // Reset
+    PV := 10          // Přednastavená hodnota (např. 10)
+);
 
-(* Zpracování výstupních signálů a aktuální hodnoty čítače *)
-Up_Count := CTU_Example.CV; (* Aktuální hodnota čítače nahoru *)
+// Uložení aktuální hodnoty čítače do proměnné
+Count := MyCTU.CV;
 
-IF CTU_Example.Q THEN
-    (* Akce při dosažení přednastavené hodnoty čítače nahoru *)
-    (* Například: *)
-    (* Output := TRUE; *)
+// Kontrola, zda čítač dosáhl přednastavené hodnoty
+IF MyCTU.Q THEN
+    // Čítač dosáhl hodnoty 10, provést potřebnou akci
 END_IF
+
+---------------------------------------------------
+== 2. CTD – Čítač dolů ==
+
+Popis:
+- Dekrementuje aktuální hodnotu (CV) při náběžné hraně vstupu CD.
+- Vstupy:
+    - CD: Signál, který při náběžné hraně sníží čítač o 1.
+    - R : Reset, který nastaví čítač zpět na přednastavenou hodnotu (PV).
+- Parametry:
+    - PV: Přednastavená (výchozí) hodnota, od které se odpočítává.
+- Výstupy:
+    - CV: Aktuální hodnota čítače.
+    - Q : Indikátor, zda čítač dosáhl dolní meze (např. 0).
+
+Příklad kódu:
+
+PROGRAM PLC_Program
+VAR
+    Trigger : BOOL;    // Signál pro dekrementaci
+    Reset   : BOOL;    // Signál pro reset
+    Count   : INT;     // Proměnná pro uchování aktuální hodnoty
+    MyCTD   : CTD;     // Instance funkčního bloku CTD
+END_VAR
+
+// Volání funkčního bloku CTD
+MyCTD(
+    CD := Trigger,    // Dekrementační vstup
+    R  := Reset,      // Resetovací vstup
+    PV := 10          // Výchozí hodnota (např. 10)
+);
+
+Count := MyCTD.CV;
+
+// Kontrola, zda čítač dosáhl dolní meze (např. 0)
+IF MyCTD.Q THEN
+    // Čítač dosáhl dolní meze, provést potřebnou akci
+END_IF
+
+---------------------------------------------------
+== 3. CTUD – Kombinovaný čítač nahoru a dolů ==
+
+Popis:
+- Kombinuje funkce CTU a CTD, umožňuje inkrementaci i dekrementaci.
+- Vstupy:
+    - CU: Signál pro inkrementaci.
+    - CD: Signál pro dekrementaci.
+    - R : Reset, který nastaví čítač na přednastavenou hodnotu (PV).
+- Parametry:
+    - PV: Přednastavená hodnota, která může sloužit jako horní nebo dolní mez.
+- Výstupy:
+    - CV: Aktuální hodnota čítače.
+    - Q : Indikátor dosažení nastaveného limitu.
+
+Příklad kódu:
+
+PROGRAM PLC_Program
+VAR
+    IncTrigger : BOOL;  // Signál pro inkrementaci
+    DecTrigger : BOOL;  // Signál pro dekrementaci
+    Reset      : BOOL;  // Signál pro reset
+    Count      : INT;   // Proměnná pro uchování aktuální hodnoty
+    MyCTUD     : CTUD;  // Instance funkčního bloku CTUD
+END_VAR
+
+// Volání funkčního bloku CTUD
+MyCTUD(
+    CU := IncTrigger, // Vstup pro zvýšení hodnoty
+    CD := DecTrigger, // Vstup pro snížení hodnoty
+    R  := Reset,      // Reset
+    PV := 10          // Přednastavená hodnota (např. 10)
+);
+
+Count := MyCTUD.CV;
+
+// Podmínka – např. kontrola dosažení horního nebo dolního limitu
+IF MyCTUD.Q THEN
+    // Provést potřebnou akci při dosažení limitu
+END_IF
+
+---------------------------------------------------
+Poznámky:
+- Při programování je nutné zajistit správnou detekci náběžné hrany vstupních signálů, aby nedocházelo k opakovanému spouštění.
+- Příklady lze upravovat dle konkrétních požadavků projektu.
+###############################################
