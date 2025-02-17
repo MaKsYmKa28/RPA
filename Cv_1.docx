@@ -253,3 +253,114 @@ Shrnutí:
   - FOR ... TO ... DO ... END_FOR pro pevně daný počet iterací.
 
 ###############################################
+Přehled základních datových typů a přetypování v PLC
+###############################################
+
+---------------------------------------------------
+== 1. Základní datové typy ==
+---------------------------------------------------
+
+- BOOL:
+    - Logická hodnota, která může nabývat hodnot TRUE nebo FALSE.
+    - Použití: reprezentace binárních stavů (zapnuto/vypnuto, otevřeno/zavřeno).
+
+- BYTE, WORD, DWORD:
+    - Číselné typy s pevnou šířkou:
+        • BYTE: 8 bitů
+        • WORD: 16 bitů
+        • DWORD: 32 bitů
+    - Použití: bitové operace, registry, manipulace s bity.
+
+- INT, DINT, LINT:
+    - Celá čísla se znaménkem:
+        • INT: 16-bitové (rozsah: -32768 až 32767)
+        • DINT: 32-bitové (rozsah: -2 147 483 648 až 2 147 483 647)
+        • LINT: 64-bitové
+    - Použití: běžné aritmetické operace a indexování.
+
+- UINT, UDINT, ULINT:
+    - Celá čísla bez znaménka:
+        • UINT: 16-bitové
+        • UDINT: 32-bitové
+        • ULINT: 64-bitové
+    - Použití: když nepotřebujete záporné hodnoty.
+
+- REAL, LREAL:
+    - Čísla s plovoucí desetinnou čárkou:
+        • REAL: 32-bitové reálné číslo
+        • LREAL: 64-bitové reálné číslo (vyšší přesnost)
+    - Použití: matematické výpočty, kde je třeba pracovat s desetinnými hodnotami.
+
+- STRING:
+    - Řetězcový datový typ pro textová data.
+    - Délka může být pevně stanovena (např. STRING[80]) nebo dynamická, v závislosti na platformě.
+
+- TIME:
+    - Datový typ pro vyjádření časového intervalu.
+    - Použití: časovače, zpoždění, měření času.
+
+- DATE, TIME_OF_DAY, DATE_AND_TIME:
+    - Typy pro práci s datem a časem:
+        • DATE: reprezentace pouze data
+        • TIME_OF_DAY: reprezentace času v rámci jednoho dne
+        • DATE_AND_TIME: kombinace data a času
+
+---------------------------------------------------
+== 2. Složené datové typy ==
+---------------------------------------------------
+
+- STRUCT (STRUCTURE):
+    - Umožňuje definovat složený datový typ sestávající z více prvků různých datových typů.
+    - Použití: seskupení souvisejících proměnných do jednoho logického celku.
+
+- ARRAY:
+    - Pole proměnných stejného datového typu.
+    - Použití: uchovávání kolekce hodnot (např. měření ze senzorů).
+
+- ENUM (Enumerated Type):
+    - Výčtový datový typ s předdefinovaným seznamem hodnot.
+    - Použití: zvýšení přehlednosti a omezení možných hodnot (např. stav zařízení: VYPNUTO, SPUŠTĚNO, CHYBA).
+
+---------------------------------------------------
+== 3. Přetypování datových typů ==
+---------------------------------------------------
+
+V PLC programování je často nutné převádět hodnoty mezi různými datovými typy. Přetypování se provádí buď pomocí explicitního převodu, nebo využitím konverzních funkcí.
+
+### Explicitní přetypování:
+- V Structured Textu lze přetypovat hodnotu pomocí zápisu s cílovým typem.
+- Syntaxe:
+  cílováProměnná := CÍLOVÝ_TYP(výchozíProměnná);
+
+- Příklad:
+  VAR
+      intValue  : INT := 25;
+      realValue : REAL;
+  END_VAR
+
+  // Přetypování INT na REAL
+  realValue := REAL(intValue);
+
+### Konverzní funkce:
+- Pro převod mezi datovými typy se často využívají standardní funkce, například:
+    - INT_TO_REAL(myInt)    : Převod z INT na REAL.
+    - REAL_TO_INT(myReal)    : Převod z REAL na INT.
+    - BOOL_TO_INT(myBool)    : Převod logické hodnoty na INT (FALSE = 0, TRUE = 1).
+    - STRING_TO_INT(myString): Převod řetězce obsahující číselnou hodnotu na INT.
+
+- Příklad:
+  PROGRAM TypeConversionExample
+  VAR
+      myInt    : INT := 10;
+      myReal   : REAL;
+      myBool   : BOOL := TRUE;
+      myString : STRING(10) := '123';
+      resultInt: INT;
+  END_VAR
+
+  // Přetypování INT na REAL pomocí explicitního přetypování
+  myReal := REAL(myInt);
+
+  // Přetypování pomocí konverzní funkce
+  resultInt := STRING_TO_INT(myString);
+
