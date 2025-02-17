@@ -1,5 +1,6 @@
 Čítače
 Dopředný čítač (CTU)
+Čítač nahoru (CTU - Count Up Counter) je typ čítače v programovatelných logických automatech (PLC), který se používá k inkrementaci hodnoty při každém aktivaci vstupního signálu. Tento čítač zvyšuje svoji aktuální hodnotu (CV - Current Value) o jeden při každém pozitivním okraji signálu na vstupu CU (Count Up).
 
 (* Deklarace proměnných *)
 VAR
