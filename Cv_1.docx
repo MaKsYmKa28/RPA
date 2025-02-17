@@ -1,0 +1,20 @@
+(* Deklarace proměnných *)
+VAR
+    CTU_Example : CTU; (* Čítač nahoru *)
+    Increment : BOOL; (* Vstupní signál pro inkrementaci *)
+    Reset : BOOL;     (* Vstupní signál pro resetování čítače *)
+    Count_Up_Value : INT := 10; (* Přednastavená hodnota pro čítač nahoru *)
+    Up_Count : INT;   (* Aktuální hodnota čítače nahoru *)
+END_VAR
+
+(* Čítač nahoru (CTU) - Inkrementace *)
+CTU_Example(CU := Increment, R := Reset, PV := Count_Up_Value);
+
+(* Zpracování výstupních signálů a aktuální hodnoty čítače *)
+Up_Count := CTU_Example.CV; (* Aktuální hodnota čítače nahoru *)
+
+IF CTU_Example.Q THEN
+    (* Akce při dosažení přednastavené hodnoty čítače nahoru *)
+    (* Například: *)
+    (* Output := TRUE; *)
+END_IF
