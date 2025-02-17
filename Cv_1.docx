@@ -1,11 +1,10 @@
 ###############################################
-# PLC_Counters_ST.txt
-# Ukázka programování čítačů v PLC ve strukturovaném textu
+Čítače
 ###############################################
 
 ---------------------------------------------------
 == 1. CTU – Čítač nahoru ==
-
+---------------------------------------------------
 Popis:
 - Inkrementuje aktuální hodnotu (CV) při náběžné hraně vstupu CU.
 - Vstupy:
@@ -44,6 +43,7 @@ END_IF
 
 ---------------------------------------------------
 == 2. CTD – Čítač dolů ==
+---------------------------------------------------
 
 Popis:
 - Dekrementuje aktuální hodnotu (CV) při náběžné hraně vstupu CD.
@@ -82,6 +82,7 @@ END_IF
 
 ---------------------------------------------------
 == 3. CTUD – Kombinovaný čítač nahoru a dolů ==
+---------------------------------------------------
 
 Popis:
 - Kombinuje funkce CTU a CTD, umožňuje inkrementaci i dekrementaci.
@@ -120,9 +121,3 @@ Count := MyCTUD.CV;
 IF MyCTUD.Q THEN
     // Provést potřebnou akci při dosažení limitu
 END_IF
-
----------------------------------------------------
-Poznámky:
-- Při programování je nutné zajistit správnou detekci náběžné hrany vstupních signálů, aby nedocházelo k opakovanému spouštění.
-- Příklady lze upravovat dle konkrétních požadavků projektu.
-###############################################
