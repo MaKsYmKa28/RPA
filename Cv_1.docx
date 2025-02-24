@@ -1,3 +1,4 @@
+
 ###############################################
 Čítače
 ###############################################
@@ -364,3 +365,4 @@ V PLC programování je často nutné převádět hodnoty mezi různými datový
   // Přetypování pomocí konverzní funkce
   resultInt := STRING_TO_INT(myString);
 
+https://docs.google.com/document/d/157KDufcgIBTDMe5xA43Q7Se_G7uvs45T5tf5b9kX4es/edit?tab=t.0
